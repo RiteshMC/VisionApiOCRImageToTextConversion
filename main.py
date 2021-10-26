@@ -5,7 +5,7 @@ from request_tool import get_processed_data
 api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Please insert the image url you want to parse
-image_url = "https://raw.githubusercontent.com/RiteshMC/VisionApiOCRImageToTextConversion/develop/resources/test-invoice.jpg"
+image_url = "https://raw.githubusercontent.com/RiteshMC/VisionApiOCRImageToTextConversion/main/resources/test-invoice.jpg"
 
 # getting the dat and converting it into json format
 response = get_processed_data(api_key, image_url)
