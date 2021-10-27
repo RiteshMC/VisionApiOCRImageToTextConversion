@@ -1,5 +1,5 @@
 from parse_tool import get_block, get_xy_high_word
-from request_tool import get_processed_data
+from request_tool import get_processed_data_with_url
 
 # Please be sure to replace this with your ApiKey
 api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -7,10 +7,19 @@ api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 # Please insert the image url you want to parse
 image_url = "https://raw.githubusercontent.com/RiteshMC/VisionApiOCRImageToTextConversion/main/resources/test-invoice.jpg"
 
+# Method 1 : Incase the image_url is easily detected and parsed by google cloud vision API
 # getting the dat and converting it into json format
-response = get_processed_data(api_key, image_url)
+response = get_processed_data_with_url(api_key, image_url)
 jd = eval(response.text)
 data = jd["responses"][0]
+
+# Method 2 : Incase when google cloud vision API cannot easily recognize your Image Url
+# You will need to convert it to base 64 and then send it as a content parameter
+# I faced it when working with S3 images which worked fine but google didn't recognize it
+# base64data = base64.b64encode(requests.get(image_url).content).decode()
+# response = get_processed_data_with_base64img(api_key, base64data)
+# jd = eval(response.text)
+# data = jd["responses"][0]
 
 # Uncomment the code just incase you want to save the json response to file and read it.
 # import json
@@ -51,9 +60,7 @@ for x in range(len(word_blocks)):
         word_blocks.pop(0)
         continue
     cur = word_blocks[0]
-    cur_height_offset = cur["height_high"] - cur["height_low"]
     tmp = [word_blocks[0]]
-    tmp_idx = []
     used_sentence_blocks.append(word_blocks[0])
     word_blocks.pop(0)
 

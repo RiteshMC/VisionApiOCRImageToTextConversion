@@ -61,3 +61,34 @@ Total Sentences =  73
 ..............
 ```
 
+
+## Fixes
+
+Incase google dont recognize your Image URL even though it is a valid image URL.
+*Note : This occured to me when using a valid S3 Url
+
+Please comment the Method 1 from main.py file
+
+```
+# Method 1 : Incase the image_url is easily detected and parsed by google cloud vision API
+# getting the dat and converting it into json format
+response = get_processed_data_with_url(api_key, image_url)
+jd = eval(response.text)
+data = jd["responses"][0]
+```
+
+
+and use Method 2 from main.py file
+
+```
+# Method 2 : Incase when google cloud vision API cannot easily recognize your Image Url
+# You will need to convert it to base 64 and then send it as a content parameter
+# I faced it when working with S3 images which worked fine but google didn't recognize it
+# base64data = base64.b64encode(requests.get(image_url).content).decode()
+# response = get_processed_data_with_base64img(api_key, base64data)
+# jd = eval(response.text)
+# data = jd["responses"][0]
+```
+
+
+
